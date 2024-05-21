@@ -16,3 +16,8 @@ class BootstrapAuthenticationForm(AuthenticationForm):
                                widget=forms.PasswordInput({
                                    'class': 'form-control',
                                    'placeholder':'Password'}))
+
+class Asset(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title', 'author', 'publication_date']
