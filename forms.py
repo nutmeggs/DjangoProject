@@ -17,7 +17,7 @@ class BootstrapAuthenticationForm(AuthenticationForm):
                                    'class': 'form-control',
                                    'placeholder':'Password'}))
 
-class Asset(forms.ModelForm):
+class AssetForm(forms.ModelForm):
     class Meta:
-        model = Book
-        fields = ['title', 'author', 'publication_date']
+        model = Asset
+        fields = ['Type', 'Name', 'Email', 'Hire_Date']
