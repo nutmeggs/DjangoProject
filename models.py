@@ -8,5 +8,5 @@ class Asset(models.Model):
    Email = models.CharField(max_length=50, blank=True, null=True)
    Hire_Date = models.DateTimeField (default = timezone.now)
 
-   def __str_(self):
+   def __str__(self):
        return self.code + '-' + self.Type
