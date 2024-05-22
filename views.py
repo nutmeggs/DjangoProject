@@ -89,3 +89,9 @@ def studenthome(request):
         form = AddAssetForm()
         context = {'form':form}
         return render(request,'app/studenthome.html', context)
+
+
+def dashboard(request):
+    assets = Asset.objects.all()
+    context = {'assets': assets}
+    return render(request, 'app/dashboard.html', context)
