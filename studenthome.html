@@ -1,146 +1,42 @@
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Home</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
-
-<body>
-    <h1>Student Home</h1>
-    <h3>Student Assets</h3>
-    <table id="assetTable">
-        <tr>
-            <th>Student Name</th>
-            <th>Student ID</th>
-            <th>Asset Type</th>
-            <th>Quantity</th>
-            <th>Date Hired</th>
-            <th>Edit</th>
-        </tr>
-    </table>
-
-    <br>
-    <button onclick="addRow()">Add Asset</button>
-    <script>
-window.onload = function() {
-    loadData();
-};
-function addRow() {
-    var table = document.getElementById("assetTable");
-    var row = table.insertRow(-1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
-    var cell5 = row.insertCell(4);
-    var cell6 = row.insertCell(5);
-    //can use it to get the internal HTML content of any HTML element as an HTML string
-    //use it to set or change elements' innerHTML content
-    cell1.innerHTML = '<input type="text" name="student_name">';
-    cell2.innerHTML = '<input type="text" name="student_id">';
-    cell3.innerHTML = '<input type="text" name="asset_type">';
-    cell4.innerHTML = '<input type="number" name="quantity">';
-    cell5.innerHTML = '<input type="date" name="date_hired">';
-    cell6.innerHTML = '<button onclick="removeRow(this)">Remove</button>';
-
-    saveData();
-}
-
-function removeRow(button) {
-    var row = button.parentNode.parentNode;
-    row.parentNode.removeChild(row);
-
-    saveData();
-}
-//this function was created because everytime the page was refreshed, the data deleted.
-function saveData() {
-    var tableData = [];
-    var rows = document.getElementById("assetTable").rows;
-    for (var i = 1; i < rows.length; i++) {
-        var cells = rows[i].cells;
-        var rowData = {
-            //a method used for searching and returning the very first element within the document that matches the given selector
-            //to select elements by type, class, id, attribute, pseudo-class, and pseudo-element selectors
-            student_name: cells[0].querySelector("input").value,
-            student_id: cells[1].querySelector("input").value,
-            asset_type: cells[2].querySelector("input").value,
-            quantity: cells[3].querySelector("input").value,
-            date_hired: cells[4].querySelector("input").value
-        };
-        tableData.push(rowData);
-    }
-
-    localStorage.setItem("assetTableData", JSON.stringify(tableData));
-}
-
-function loadData() {
-    var tableData = localStorage.getItem("assetTableData");
-    if (tableData) {
-        tableData = JSON.parse(tableData);
-        var table = document.getElementById("assetTable");
-        //the "i" in "int i" is a variable named location in memory where a value can be stored and retrieved
-        for (var i = 0; i < tableData.length; i++) {
-            var row = table.insertRow(-1);
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3);
-            var cell5 = row.insertCell(4);
-            var cell6 = row.insertCell(5);
-            cell1.innerHTML = '<input type="text" name="student_name" value="' + tableData[i].student_name + '">';
-            cell2.innerHTML = '<input type="text" name="student_id" value="' + tableData[i].student_id + '">';
-            cell3.innerHTML = '<input type="text" name="asset_type" value="' + tableData[i].asset_type + '">';
-            cell4.innerHTML = '<input type="number" name="quantity" value="' + tableData[i].quantity + '">';
-            cell5.innerHTML = '<input type="date" name="date_hired" value="' + tableData[i].date_hired + '">';
-            cell6.innerHTML = '<button onclick="removeRow(this)">Remove</button>';
-        }
-    }
-}
-
-    </script>
-</body>
-</html>-->
+<!DOCTYPE html>
+{% load static %}
 {% load widget_tweaks %}
-
-<div class="'row'">
-    <div class="col-md-6">
-        <div class="card mx-auto" style=" width: 40rem; ">
-            <div class="card-body">
-                <h5 class="card-title mb-3">
-                    Add an Item
-                </h5>
-                <form method="POST">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="exampleInputEmail" class=" = " form-label">
-                            Type
-                        </label>
-                        {% render_field form.Type class="form-control" %}
+<html>
+<head>
+    <title>Student Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mx-auto mt-5" style="width: 40rem;">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Add an Item</h5>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="id_Type" class="form-label">Type</label>
+                                {% render_field form.Type class="form-control" %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_Name" class="form-label">Name</label>
+                                {% render_field form.Name class="form-control" %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_Email" class="form-label">Email</label>
+                                {% render_field form.Email class="form-control" %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_Hire_Date" class="form-label">Hire Date</label>
+                                {% render_field form.Hire_Date class="form-control" %}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
                     </div>
-                </form>
-
+                </div>
             </div>
         </div>
     </div>
-</div>
+</body>
+</html>
