@@ -3,6 +3,7 @@ Definition of forms.
 """
 
 from django import forms
+from .models import Asset
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import gettext_lazy as _
 
@@ -21,3 +22,6 @@ class AssetForm(forms.ModelForm):
     class Meta:
         model = Asset
         fields = ['Type', 'Name', 'Email', 'Hire_Date']
+        widgets = {
+            'Hire_Date': forms.DateInput(attrs={'type': 'date'})
+        }
