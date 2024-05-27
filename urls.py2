@@ -25,6 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('studenthome/', views.studenthome, name='student_home'),
     path('dashboard/', views.dashboard, name='dashboard'),
-    path('delete_asset/<int:asset_id>/', views.delete_asset, name='delete_asset'),
+    path('approve_asset/<int:asset_id>/', views.approve_asset, name='approve_asset'), 
+    path('delete_asset/<int:asset_id>/', views.delete_asset, name='delete_asset'),  
 ]
-
