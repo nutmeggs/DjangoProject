@@ -18,18 +18,3 @@ urlpatterns = [
 
     path('dashboard/', app.views.add_item, name='dashboard'),
 ]
-
-
-
-
-
-
-
-#from django.urls import path, include
-
-#from .views import studenthome
-
-#urlspattern = [
-    #path("", studenthome, name='studenthome'),
-
-#]
