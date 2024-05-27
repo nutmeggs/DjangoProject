@@ -1,44 +1,181 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        h1, h3 {
+            font-family: 'Roboto', sans-serif;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .table-container {
+            height: 300px; 
+            overflow-y: auto;
+            border: 1px solid #ddd; 
+            margin-bottom: 20px; 
+        }
+        th, td {
+            vertical-align: middle;
+        }
+        .btn-group {
+            display: flex;
+        }
+        .btn-group form {
+            margin-right: 10px;
+        }
+        
+        .status-hired {
+            background-color: green;
+            color: white;
+        }
+        .status-overdue {
+            background-color: red;
+            color: white;
+        }
+    </style>
 </head>
+<title>Dashboard</title>
 <body>
     <div class="container">
         <h1>Dashboard</h1>
-        <h3> All Assets</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>All Assets</h3>
+                <div class="table-container">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Hire Date</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for asset in assets %}
+                                <tr>
+                                    <td>{{ asset.Type }}</td>
+                                    <td>{{ asset.Name }}</td>
+                                    <td>{{ asset.Email }}</td>
+                                    <td>{{ asset.Hire_Date|date }}</td>
+                                    <td>{{ asset.Due_Date }}</td>
+                                    <td class="status-{{ asset.status }}">{{ asset.status }}</td>
+                                    <td>
+                                        <form method="POST" action="{% url 'delete_asset' asset.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="7">No assets found.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+    <h3>Requested Assets</h3>
+    <div class="table-container">
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Type</th>
+                    <th>Asset</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Hire Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {% for asset in assets %}
+                {% for asset in requested_assets %}
                     <tr>
-                        <td>{{ asset.Type }}</td>
+                        <td>{{ asset.Asset }}</td>
                         <td>{{ asset.Name }}</td>
                         <td>{{ asset.Email }}</td>
-                        <td>{{ asset.Hire_Date }}</td>
+                        <td>{{ asset.Hire_Date|date }}</td>
+                        <td>{{ asset.Due_Date }}</td>
                         <td>
-                            <form method="POST" action="{% url 'delete_asset' asset.id %}" style="display:inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
+                            <div class="btn-group-vertical">
+                                <form method="POST" action="{% url 'approve_asset' asset.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success btn-sm btn-block">Approve</button>
+                                </form>
+                                <form method="POST" action="{% url 'delete_asset' asset.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm btn-block mt-1">Delete</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan="5">No assets found.</td>
+                        <td colspan="7">No requested assets.</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+    </div>
+</div>
+            <div class="col-md-6">
+                <h3>Overdue Assets</h3>
+                <div class="table-container">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Hire Date</th>
+                                <th>Due Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for asset in overdue_assets %}
+                                <tr>
+                                    <td>{{ asset.Asset }}</td>
+                                    <td>{{ asset.Name }}</td>
+                                    <td>{{ asset.Email }}</td>
+                                    <td>{{ asset.Hire_Date|date }}</td>
+                                    <td>{{ asset.Due_Date }} </td>
+                                    <td>
+                                        <form method="POST" action="{% url 'delete_asset' asset.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="6">No overdue assets.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
