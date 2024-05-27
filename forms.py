@@ -23,5 +23,6 @@ class AssetForm(forms.ModelForm):
         model = Asset
         fields = ['Type', 'Name', 'Email', 'Hire_Date']
         widgets = {
-            'Hire_Date': forms.DateInput(attrs={'type': 'date'})
+            'Hire_Date': forms.DateInput(attrs={'type': 'date'}),
+            'Due_Date': forms.DateInput(attrs={'type': 'date'})
         }
